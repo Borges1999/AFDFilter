@@ -21,15 +21,6 @@ customtkinter.CTkLabel(janela,text="", image=img_fundo).place(x=245, y=7, w=100,
 
 
 
-
-#Titulo
-#customtkinter.CTkLabel(janela, text="AFDFilter", text_color= 'white', font=("Arial", 40))\
-    #.place(relx=0.29, rely=0, w=250, h=120)
-
-#customtkinter.CTkLabel(janela, text="Filter", text_color= '#FE021B', font=("Arial", 40))\
-    #.place(x=270, rely=0.01, w=130, h=100)
-
-
 def afd():
     global arquivo2
     arquivo = filedialog.askopenfilename(initialdir="/Desktop", title="AFDFilter",filetypes=((" Arquivos de texto", " *.txt "),("", "")))
@@ -53,7 +44,7 @@ def arquivo_afd():
 
             # Verificar se o Pis/CPF está em alguma linha do arquivo
             encontrou_pis = any(pis in linha for linha in linhas)
-            # Nome do arquivo de destino
+            
             nome_arquivo_destino = f'AFDFilter_{pis}.txt'
 
 
@@ -112,7 +103,6 @@ def arquivo_afd_data():
                 
             else:
                 messagebox.showerror(title="AFDFilter", message=f"Data inicial: {data_inicial.get()} não encontrada no arquivo.")
-                # Adicione um comportamento apropriado quando a data inicial não for encontrada
                 return
 
             if ultima_ocorrencia_termo2 is not None:
@@ -134,7 +124,7 @@ def arquivo_afd_data():
             linhas_origem = arquivo_origem.readlines()
             linhas_intervalo = linhas_origem[inicio_intervalo - 1:fim_intervalo]
 
-            # Mantenha as 2 primeiras e as 2 últimas linhas
+            # Manter as 2 primeiras e as 2 últimas linhas
             linhas_cabecalho = linhas_origem[:1]
             linhas_rodape = linhas_origem[-2:]
             
@@ -187,7 +177,6 @@ def arquivo_afd_data_671():
                 print(f"A primeira ocorrência de '{data_formatada_i}' está na linha {primeira_ocorrencia_termo1}.")
             else:
                 messagebox.showerror(title="AFDFilter", message=f"Data inicial: {data_inicial.get()} não encontrada no arquivo.")
-                # Adicione um comportamento apropriado quando a data inicial não for encontrada
                 return
 
             if ultima_ocorrencia_termo2 is not None:
@@ -210,7 +199,7 @@ def arquivo_afd_data_671():
             linhas_origem = arquivo_origem.readlines()
             linhas_intervalo = linhas_origem[inicio_intervalo - 1:fim_intervalo]
 
-            # Mantenha as 2 primeiras e as 2 últimas linhas
+            # Manter as 2 primeiras e as 2 últimas linhas
             linhas_cabecalho = linhas_origem[:1]
             linhas_rodape = linhas_origem[-2:]
             
@@ -274,7 +263,6 @@ def limpar():
 
 def limpar_pis():
     numero_pis.delete(0, END)
-
 
 
 #AFD
