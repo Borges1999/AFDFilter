@@ -124,7 +124,7 @@ def arquivo_afd_data():
             linhas_origem = arquivo_origem.readlines()
             linhas_intervalo = linhas_origem[inicio_intervalo - 1:fim_intervalo]
 
-            # Manter as 2 primeiras e as 2 últimas linhas
+            # Manter as 1 primeira e as 2 últimas linhas
             linhas_cabecalho = linhas_origem[:1]
             linhas_rodape = linhas_origem[-2:]
             
@@ -217,43 +217,71 @@ def arquivo_afd_data_671():
             print(f"Intervalo de linhas [{inicio_intervalo}:{fim_intervalo}] salvo em '{nome_arquivo_destino}'.")
 
 
+
+
+
 def verificar_afd(nome_arquivo_destino="AFDFilter_NSR.txt", diferenca_maxima=1):
     
     arquivo3 = anexo.get()
     
-    if not arquivo3:
-        messagebox.showerror(title="AFDFilter", message="Arquivo não encontrado.")
-    else:
-        with open(arquivo2, 'r') as arquivo:
-            linhas = arquivo.readlines()
+    
+    try:
+        if not arquivo3:
+            messagebox.showerror(title="AFDFilter", message="Arquivo não encontrado.")
+        else:
 
-            linhas_com_erro = []
+            with open(arquivo2, 'r') as arquivo:
+                linhas = arquivo.readlines()
 
-            for i in range(1, len(linhas) - 2):  # Desconsiderar as 2 últimas linhas
-                linha_atual = linhas[i][:9].rstrip()
-                linha_anterior = linhas[i - 1][:9].rstrip()
+                linhas_com_erro = []
 
-                if len(linhas[i]) >= 9 and len(linhas[i - 1]) >= 9:
-                    if linha_atual.isdigit() and linha_anterior.isdigit():
-                        diferenca = int(linha_atual) - int(linha_anterior)
+                for i in range(1, len(linhas) - 2):  # Desconsiderar as 2 últimas linhas
+                    linha_atual = linhas[i][:9].rstrip()
+                    linha_anterior = linhas[i - 1][:9].rstrip()
 
-                        if diferenca > diferenca_maxima:
-                            linhas_com_erro.append(f"Linha {i + 1}: {linhas[i].strip()}")
+                    if len(linhas[i]) >= 9 and len(linhas[i - 1]) >= 9:
+                        if linha_atual.isdigit() and linha_anterior.isdigit():
+                            diferenca = int(linha_atual) - int(linha_anterior)
 
-                if linha_atual < linha_anterior:
-                    linhas_com_erro.append(f"Linha {i + 1}: {linhas[i].strip()}")
+                            if diferenca > diferenca_maxima:
+                                linhas_com_erro.append(f"Linha {i + 1}: {linhas[i].strip()}")
+
+                    if linha_atual < linha_anterior:
+                        linhas_com_erro.append(f"Linha {i + 1}: {linhas[i].strip()}")
+
+            nome_arquivo_destino = filedialog.asksaveasfilename(defaultextension=".txt",
+                                                                    filetypes=[("Arquivos de Texto", "*.txt")],
+                                                                    title="Salvar como",
+                                                                    initialfile="AFDFilter_NSR.txt")
+
+            if nome_arquivo_destino:  # Escrever as linhas com erro no arquivo de destino
+                with open(nome_arquivo_destino, 'w') as arquivo_destino:
+                    arquivo_destino.writelines('\n'.join(linhas_com_erro))
+                    arquivo_destino.writelines('\n'f"Número de linhas com erro no NSR: {len(linhas_com_erro)}")
+                    messagebox.showinfo(title="AFDFilter", message=f"Análise do AFD salva no arquivo: AFDFilter_NSR.txt")  
+    except UnicodeDecodeError:
+
+        caracteres = b'?'  # 'caracteres' deve ser bytes para comparar com linhas lidas em modo binário
+
+        with open(arquivo2, 'rb') as f:
+                conteudo = f.readlines()
+
+        encontrou = any(caracteres in linha for linha in conteudo)
 
         nome_arquivo_destino = filedialog.asksaveasfilename(defaultextension=".txt",
-                                                                 filetypes=[("Arquivos de Texto", "*.txt")],
-                                                                 title="Salvar como",
-                                                                 initialfile="AFDFilter_NSR.txt")
+                                                                    filetypes=[("Arquivos de Texto", "*.txt")],
+                                                                    title="Salvar como",
+                                                                    initialfile="AFDFilter_NSR.txt")
+            
+        if encontrou:
+            with open(nome_arquivo_destino, 'w', encoding='utf-8') as t:
+                for linha in conteudo:
+                    if caracteres in linha:
+                        t.writelines('Arquivo corrompido!!! \n')
+                        t.writelines(linha.decode('utf-8', errors='ignore'))  # Decodificar bytes para string antes de escrever
+                        t.writelines('Arquivo corrompido!!!')
+        messagebox.showinfo(title="AFDFilter", message=f"Análise do AFD salva no arquivo: AFDFilter_NSR.txt")
 
-        if nome_arquivo_destino:  # Escrever as linhas com erro no arquivo de destino
-            with open(nome_arquivo_destino, 'w') as arquivo_destino:
-                arquivo_destino.writelines('\n'.join(linhas_com_erro))
-                arquivo_destino.writelines('\n'f"Número de linhas com erro no NSR: {len(linhas_com_erro)}")
-                messagebox.showinfo(title="AFDFilter", message=f"Análise do AFD salva no arquivo: AFDFilter_NSR.txt")       
-        
 
 def limpar():
     anexo.delete(0, END)
