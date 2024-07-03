@@ -1,5 +1,10 @@
 # AFDFilter
 
+## O que foi utilizado
+- Python
+- Tkinter
+- CustomTkinter
+
 ## O que é o AFDFilter?
 Uma ferramenta para filtragem e análise de arquivos AFD, que tem como objetivo principal agilizar e facilitar esses processos por meio do algoritmo utilizado em seu desenvolvimento.
 
