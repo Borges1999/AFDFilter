@@ -1,12 +1,12 @@
 # AFDFilter
 
-## O que foi utilizado
-- Python
-- Tkinter
-- CustomTkinter
 
 ## O que é o AFDFilter?
-Uma ferramenta para filtragem e análise de arquivos AFD, que tem como objetivo principal agilizar e facilitar esses processos por meio do algoritmo utilizado em seu desenvolvimento.
+Uma ferramenta desenvolvida em Python para filtragem e análise de arquivos AFD, que tem como objetivo principal agilizar e facilitar esses processos por meio do algoritmo utilizado em seu desenvolvimento.
+
+- Python
+  - Tkinter
+  - CustomTkinter
 
 <img width="600" alt="image" src="https://github.com/Borges1999/AFDFilter/assets/144748871/7fed1f14-8087-4b92-8063-a00ca017482d">
 
@@ -27,7 +27,7 @@ Download Python: https://python.org.br/instalacao-windows/
 
 
 
-
+#
 ## Como funciona a filtragem por PIS/CPF?
 
 A informação inserida no campo PIS/CPF é buscada dentro do arquivo e todas as ocorrências exatas desses valores são apresentadas no arquivo filtrado, o software busca por essas informações, armazena e por fim lista linha por linha no arquivo de saída.
@@ -39,7 +39,7 @@ Pela utilização de dados reais, os mesmos foram ocultados em todos os exemplos
 Como o campo busca pela ocorrência exata do valor preenchido, este campo pode funcionar como um "Coringa", por sua filtragem não ser posicional com base no início e fim dos caracteres como os demais, esse campo pode filtrar até mesmo por nome, desde que o valor preenchido seja exatamente igual dentro do arquivo, você também pode utilizá-lo para encontrar uma NSR especifica ou então até mesmo pelo código CRC das marcações.
 
 
-
+#
 ## Filtragem por Data
 Essa função realiza a filtragem posicional dos caracteres referente a data inicial e final dentro de um AFD, ou seja, o software pega o primeiro caractere informado da data inicial até o último caractere dessa data, identifica a posição dentro da linha e através desse posicionamento realiza a filtragem dessas informações até a data final linha por linha sendo realizado o mesmo processo.
 
@@ -48,7 +48,7 @@ Essa função realiza a filtragem posicional dos caracteres referente a data ini
 Esse processo garante uma filtragem mais segura das informações, pois como a filtragem está sendo realizada pela posição dos caracteres isso impede que caso o usuário filtre um arquivo com por exemplo meio milhão de linhas, valores como da NSR não sejam confundidos com alguma data, fazendo com que o arquivo filtrado saía com informações desnecessárias e incorretas. O arquivo de saída ainda contém os dados de cabeçalho e trailer.
 
 
-
+#
 ## Verificar AFD
 E por último mas não menos importante, a função que acredito ser o diferencial desta ferramenta. Ela foi desenvolvida para realizar a validação de um arquivo AFD, para concluirmos se ele se encontra corrompido ou não.
 Sua lógica funciona da seguinte maneira, sabemos que a NSR possui 9 caracteres e são esses valores que são validados linha a linha pelo software, o programa lê os primeiros 9 caracteres de cada linha e valida se as linhas estão seguindo uma ordem numérica crescente, caso os valores fujam dessa ordem crescente, o software armazena a posição da linha, seu conteúdo e ao final do processo cria um arquivo no formato txt com a quantidade de linhas com problema na NSR, com o número da linha problemática e seu conteúdo, e tudo isso em segundos independentemente do tamanho do AFD.
